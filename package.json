@@ -19,6 +19,7 @@
     "dependencies": {
         "@inertiajs/inertia": "^0.11.0",
         "@inertiajs/inertia-vue3": "^0.6.0",
+        "admin-lte": "^3.2.0",
         "vue": "^3.2.36"
     }
 }
