@@ -11,7 +11,7 @@
 
   <div class="content">
     <div class="container-fluid">
-      <h1>mon contenu 2</h1>
+      <h1>Ma page contact</h1>
     </div>
   </div>
 </template>

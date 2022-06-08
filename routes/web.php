@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return inertia("Test");
-});
-Route::get('/test2', function () {
+})->name("home");
+
+Route::get('/contact', function () {
     return inertia("Test2");
-});
+})->name("contact");
