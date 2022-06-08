@@ -18,13 +18,10 @@
             <div class="card-header">
               <h3 class="card-title"></h3>
               <div class="card-tools">
-                <ul class="pagination pagination-sm float-right">
-                  <li class="page-item"><a class="page-link" href="#">«</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">»</a></li>
-                </ul>
+                <Pagination 
+                :links="props.niveauScolaires.links" 
+                :prev="props.niveauScolaires.prev_page_url"
+                :next="props.niveauScolaires.next_page_url" />
               </div>
             </div>
 
@@ -37,7 +34,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="niveauScolaire in props.niveauScolaires">
+                  <tr v-for="niveauScolaire in props.niveauScolaires.data">
                     <td>{{niveauScolaire.nom}}</td>
                     <td>
                           <div class="d-flex justify-items-center">
@@ -57,7 +54,8 @@
 </template>
 
 <script setup>
+  import Pagination from '../../Shared/Pagination.vue';
   const props = defineProps({
-    niveauScolaires: Array
+    niveauScolaires: Object
   })
 </script>
