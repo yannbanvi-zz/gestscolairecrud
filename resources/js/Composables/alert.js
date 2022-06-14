@@ -1,5 +1,5 @@
 
-export function useSwallSuccess(message){
+export function useSwalSuccess(message){
     Swal.fire({
         toast: true,
         icon: "success",
@@ -11,7 +11,7 @@ export function useSwallSuccess(message){
       });
 }
 
-export function useSwallError(message){
+export function useSwalError(message){
     Swal.fire({
         toast: true,
         icon: "error",

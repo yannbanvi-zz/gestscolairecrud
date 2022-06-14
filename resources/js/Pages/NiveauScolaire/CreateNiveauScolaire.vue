@@ -28,8 +28,10 @@
                 type="text"
                 required
                 class="form-control"
+                :class="{'is-invalid': nomError != ''}"
                 v-model="nomNiveauScolaire"
               />
+              <span v-if="nomError != '' " class="invalid-feedback error">{{ nomError }}</span>
             </div>
           </form>
         </div>
@@ -47,9 +49,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { Inertia } from "@inertiajs/inertia";
-import { useSwalSuccess, useSwalError } from "../../Composables/alert";
+import { useSwalSuccess, useSwalError } from "@/Composables/alert";
 
 const nomNiveauScolaire = ref("");
+const nomError = ref("")
+
 let createModal = "";
 onMounted(() => {
   createModal = $("#createNVModal");
@@ -74,6 +78,9 @@ const soumettre = () => {
       },
       onError: (errors) => {
         //Afficher un message d'erreur
+        if(errors.nom != null){
+            nomError.value = errors.nom
+        }
         useSwalError("Une erreur s'est produite")
       },
     }

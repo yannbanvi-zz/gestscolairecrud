@@ -31752,7 +31752,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-/* harmony import */ var _Composables_alert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Composables/alert */ "./resources/js/Composables/alert.js");
+/* harmony import */ var _Composables_alert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Composables/alert */ "./resources/js/Composables/alert.js");
 
 
 
@@ -31762,6 +31762,7 @@ __webpack_require__.r(__webpack_exports__);
     var expose = _ref.expose;
     expose();
     var nomNiveauScolaire = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)("");
+    var nomError = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)("");
     var createModal = "";
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       createModal = $("#createNVModal");
@@ -31784,6 +31785,10 @@ __webpack_require__.r(__webpack_exports__);
         },
         onError: function onError(errors) {
           //Afficher un message d'erreur
+          if (errors.nom != null) {
+            nomError.value = errors.nom;
+          }
+
           (0,_Composables_alert__WEBPACK_IMPORTED_MODULE_2__.useSwalError)("Une erreur s'est produite");
         }
       });
@@ -31791,6 +31796,7 @@ __webpack_require__.r(__webpack_exports__);
 
     var __returned__ = {
       nomNiveauScolaire: nomNiveauScolaire,
+      nomError: nomError,
       createModal: createModal,
       closeModal: closeModal,
       soumettre: soumettre,
@@ -32336,7 +32342,12 @@ var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+var _hoisted_12 = {
+  key: 0,
+  "class": "invalid-feedback error"
+};
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   form: "createForm",
   type: "submit",
   "class": "btn btn-success"
@@ -32357,13 +32368,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     required: "",
-    "class": "form-control",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $setup.nomError != ''
+    }]),
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.nomNiveauScolaire = $event;
     })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nomNiveauScolaire]])])], 40
+  }, null, 2
+  /* CLASS */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nomNiveauScolaire]]), $setup.nomError != '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.nomError), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40
   /* PROPS, HYDRATE_EVENTS */
   , _hoisted_9)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
@@ -32371,7 +32386,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     "class": "btn btn-danger",
     onClick: $setup.closeModal
-  }, "Fermer"), _hoisted_12])])])])], 64
+  }, "Fermer"), _hoisted_13])])])])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -32565,10 +32580,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "useSwallError": () => (/* binding */ useSwallError),
-/* harmony export */   "useSwallSuccess": () => (/* binding */ useSwallSuccess)
+/* harmony export */   "useSwalError": () => (/* binding */ useSwalError),
+/* harmony export */   "useSwalSuccess": () => (/* binding */ useSwalSuccess)
 /* harmony export */ });
-function useSwallSuccess(message) {
+function useSwalSuccess(message) {
   Swal.fire({
     toast: true,
     icon: "success",
@@ -32579,7 +32594,7 @@ function useSwallSuccess(message) {
     timer: 4000
   });
 }
-function useSwallError(message) {
+function useSwalError(message) {
   Swal.fire({
     toast: true,
     icon: "error",
