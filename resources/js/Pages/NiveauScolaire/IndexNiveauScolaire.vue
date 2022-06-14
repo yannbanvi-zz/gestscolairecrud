@@ -16,7 +16,9 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title"></h3>
+              <div class="card-title">
+                <CreateNiveauScolaire />
+              </div>
               <div class="card-tools">
                 <Pagination 
                 :links="props.niveauScolaires.links" 
@@ -29,7 +31,7 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Nivau scolaire</th>
+                    <th>Niveau scolaire</th>
                     <th style="width: 100px"></th>
                   </tr>
                 </thead>
@@ -55,6 +57,8 @@
 
 <script setup>
   import Pagination from '../../Shared/Pagination.vue';
+  import CreateNiveauScolaire from './CreateNiveauScolaire.vue';
+
   const props = defineProps({
     niveauScolaires: Object
   })
