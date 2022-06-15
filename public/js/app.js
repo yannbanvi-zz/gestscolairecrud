@@ -31939,10 +31939,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Shared_Pagination_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Shared/Pagination.vue */ "./resources/js/Shared/Pagination.vue");
+/* harmony import */ var _Shared_Pagination_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Shared/Pagination.vue */ "./resources/js/Shared/Pagination.vue");
 /* harmony import */ var _CreateNiveauScolaire_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateNiveauScolaire.vue */ "./resources/js/Pages/NiveauScolaire/CreateNiveauScolaire.vue");
 /* harmony import */ var _EditNiveauScolaire_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditNiveauScolaire.vue */ "./resources/js/Pages/NiveauScolaire/EditNiveauScolaire.vue");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _Composables_alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Composables/alert */ "./resources/js/Composables/alert.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+
 
 
 
@@ -31959,6 +31963,28 @@ __webpack_require__.r(__webpack_exports__);
     var editingElementId = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)(0);
     var showModal = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)(false);
 
+    var deleteNiveauScolaire = function deleteNiveauScolaire(id) {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia["delete"](route("niveauscolaire.delete", {
+        niveauScolaire: id
+      }), {
+        onSuccess: function onSuccess(response) {
+          (0,_Composables_alert__WEBPACK_IMPORTED_MODULE_4__.useSwalSuccess)("Niveau scolaire supprimé avec succès!");
+        },
+        onError: function onError(error) {
+          var _error$message;
+
+          (0,_Composables_alert__WEBPACK_IMPORTED_MODULE_4__.useSwalError)((_error$message = error.message) !== null && _error$message !== void 0 ? _error$message : "Une erreur a été rencontrée");
+        }
+      });
+    };
+
+    var deleteConfirmation = function deleteConfirmation(id) {
+      var message = "Vous êtes sur le point de supprimer cet élément, voulez-vous continuer?";
+      (0,_Composables_alert__WEBPACK_IMPORTED_MODULE_4__.useSwalConfirm)(message, function () {
+        deleteNiveauScolaire(id);
+      });
+    };
+
     var modalClosed = function modalClosed() {
       editingElementId.value = 0;
       showModal.value = false;
@@ -31973,12 +31999,18 @@ __webpack_require__.r(__webpack_exports__);
       editingElementId: editingElementId,
       showModal: showModal,
       props: props,
+      deleteNiveauScolaire: deleteNiveauScolaire,
+      deleteConfirmation: deleteConfirmation,
       modalClosed: modalClosed,
       openEditModal: openEditModal,
       Pagination: _Shared_Pagination_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
       CreateNiveauScolaire: _CreateNiveauScolaire_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
       EditNiveauScolaire: _EditNiveauScolaire_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-      ref: vue__WEBPACK_IMPORTED_MODULE_3__.ref
+      ref: vue__WEBPACK_IMPORTED_MODULE_3__.ref,
+      useSwalConfirm: _Composables_alert__WEBPACK_IMPORTED_MODULE_4__.useSwalConfirm,
+      useSwalError: _Composables_alert__WEBPACK_IMPORTED_MODULE_4__.useSwalError,
+      useSwalSuccess: _Composables_alert__WEBPACK_IMPORTED_MODULE_4__.useSwalSuccess,
+      Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -32704,15 +32736,15 @@ var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_16 = [_hoisted_15];
+var _hoisted_17 = ["onClick"];
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "btn btn-danger"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "fas fa-trash"
-})], -1
+}, null, -1
 /* HOISTED */
 );
 
+var _hoisted_19 = [_hoisted_18];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["CreateNiveauScolaire"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Pagination"], {
     links: $setup.props.niveauScolaires.links,
@@ -32730,7 +32762,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "btn btn-info mr-2"
     }, _hoisted_16, 8
     /* PROPS */
-    , _hoisted_14), _hoisted_17])])]);
+    , _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $setup.deleteConfirmation(niveauScolaire.id);
+      },
+      "class": "btn btn-danger"
+    }, _hoisted_19, 8
+    /* PROPS */
+    , _hoisted_17)])])]);
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])])])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["EditNiveauScolaire"], {
@@ -32844,6 +32883,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useSwalConfirm": () => (/* binding */ useSwalConfirm),
 /* harmony export */   "useSwalError": () => (/* binding */ useSwalError),
 /* harmony export */   "useSwalSuccess": () => (/* binding */ useSwalSuccess)
 /* harmony export */ });
@@ -32867,6 +32907,26 @@ function useSwalError(message) {
     position: "top-end",
     showConfirmButton: false,
     timer: 4000
+  });
+}
+function useSwalConfirm(message, callback) {
+  Swal.fire({
+    html: message,
+    icon: "warning",
+    buttonsStyling: true,
+    showCancelButton: true,
+    confirmButtonText: "Oui, continuer.",
+    cancelButtonText: "Non, fermer.",
+    customClass: {
+      confirmButton: "btn btn-primary",
+      cancelButton: "btn btn-danger"
+    }
+  }).then(function (result) {
+    if (result.isConfirmed) {
+      callback();
+    } else if (result.isDenied) {
+      Swal.close();
+    }
   });
 }
 
