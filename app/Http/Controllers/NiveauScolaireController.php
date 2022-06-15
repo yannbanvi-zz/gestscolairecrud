@@ -14,6 +14,10 @@ class NiveauScolaireController extends Controller
         ]);
     }
 
+    public function edit(NiveauScolaire $niveauScolaire){
+        return response()->json(["niveauScolaire" => $niveauScolaire]);
+    }
+
     public function store(Request $request){
         $request->validate([
             "nom" => "required|unique:App\\Models\NiveauScolaire"
