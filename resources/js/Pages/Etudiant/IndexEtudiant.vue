@@ -16,11 +16,20 @@
           <div class="card">
             <div class="card-header">
               <div class="card-title">
-                <button class="btn btn-primary">
+                <button class="btn btn-primary mb-4">
                   <i class="fa fa-plus"></i> Nouveau
                 </button>
+                <select @change="search" v-model="per_page"  class="form-control">
+                    <option  disabled selected>par page</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    </select>
               </div>
-              <div class="card-tools">
+              <div class="card-tools ">
+              
                 <Pagination
                   :links="props.etudiants.links"
                   :prev="props.etudiants.prev_page_url"
@@ -33,8 +42,17 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Etudiant</th>
-                    <th>Niveau scolaire</th>
+                    <th>
+                    <p>Etudiant</p>
+                    <input @keyup="search" v-model="searchEtudiant" type="text" class="form-control">
+                    </th>
+                    <th>
+                    <p>Niveau scolaire</p>
+                    <select @change="search" v-model="filtreNiveauScolaire"  class="form-control">
+                    <option value=""></option>
+                    <option :value="niveauscolaire.id" :key="niveauscolaire.id" v-for="niveauscolaire in props.niveauScolaires">{{ niveauscolaire.nom }}</option>
+                    </select>
+                    </th>
                     <th style="width: 100px"></th>
                   </tr>
                 </thead>
@@ -65,7 +83,27 @@
 
 <script setup>
 import Pagination from "../../Shared/Pagination.vue";
+import { ref } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+
 const props = defineProps({
   etudiants: Object,
+  niveauScolaires: Array,
+  filtres: Object
 });
+
+const searchEtudiant = ref(props.filtres.search ?? "")
+const filtreNiveauScolaire = ref(props.filtres.filter ?? "")
+const per_page = ref(props.filtres.per_page ?? 5)
+
+const search = _.throttle(function(){
+  console.log("searchEtudiant : ", searchEtudiant.value )
+  console.log("filter : ", filtreNiveauScolaire.value)
+  console.log("per_page : ", per_page.value)
+
+  Inertia.get(route("etudiant.index", { search: searchEtudiant.value, filter: filtreNiveauScolaire.value, per_page: per_page.value }), {}, {
+    replace: true,
+    preserveState: true
+  })
+}, 500)
 </script>
