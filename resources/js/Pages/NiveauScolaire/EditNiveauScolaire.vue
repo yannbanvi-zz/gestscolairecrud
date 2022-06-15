@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="editForm">
+        <form id="editForm" @submit.prevent="soumettre">
             <div class="form-group">
                 <label for="">Nom</label>
               <input
@@ -36,6 +36,8 @@
 
 <script setup>
     import {reactive, watch} from "vue"
+    import { Inertia } from "@inertiajs/inertia";
+    import { useSwalSuccess, useSwalError } from "@/Composables/alert";
 
     const emit = defineEmits(["modalClosed"])
 
@@ -55,7 +57,23 @@
         nomError: ""
     })
 
+    const soumettre = ()=>{
+        Inertia.put(route("niveauscolaire.update", {niveauScolaire: props.niveauScolaireId}), {
+            nom: editNiveauScolaire.nom
+        }, {
+            onSuccess: (response)=>{
+                useSwalSuccess("Niveau scolaire mis à jour avec succès!")
+                closeModal()
+            },
+            onError: (error)=>{
+                editNiveauScolaire.nomError = error.nom
+                useSwalError("Une erreur a été rencontrée")
+            }
+        })
+    }
+
     const openModal = ()=>{
+        getNiveauScolaireById()
         $("#EditModal").modal("show")
     }
 
@@ -67,7 +85,8 @@
     const getNiveauScolaireById = ()=>{
         axios.get(route("niveauscolaire.edit", { niveauScolaire: props.niveauScolaireId }))
             .then((response)=>{
-                console.log("reponse : ", response.data)
+                editNiveauScolaire.id = response.data.niveauScolaire.id
+                editNiveauScolaire.nom = response.data.niveauScolaire.nom
             }).catch((error)=>{
                 console.log(error)
             })

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\NiveauScolaire;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class NiveauScolaireController extends Controller
 {
@@ -26,5 +27,20 @@ class NiveauScolaireController extends Controller
         NiveauScolaire::create(["nom"=> $request->nom]);
 
         return redirect()->back();
+    }
+
+    public function update(Request $request, NiveauScolaire $niveauScolaire){
+        $request->validate([
+            "nom" => [
+                "required",
+                Rule::unique((new NiveauScolaire)->getTable(), "nom")->ignore($niveauScolaire->id)
+            ]
+            ]);
+
+            if($request->nom != $niveauScolaire->nom){
+                $niveauScolaire->nom = $request->nom;
+                $niveauScolaire->save();
+            }
+            return redirect()->back();
     }
 }

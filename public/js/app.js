@@ -31828,6 +31828,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _Composables_alert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Composables/alert */ "./resources/js/Composables/alert.js");
+
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'EditNiveauScolaire',
@@ -31853,7 +31857,25 @@ __webpack_require__.r(__webpack_exports__);
       nomError: ""
     });
 
+    var soumettre = function soumettre() {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__.Inertia.put(route("niveauscolaire.update", {
+        niveauScolaire: props.niveauScolaireId
+      }), {
+        nom: editNiveauScolaire.nom
+      }, {
+        onSuccess: function onSuccess(response) {
+          (0,_Composables_alert__WEBPACK_IMPORTED_MODULE_2__.useSwalSuccess)("Niveau scolaire mis à jour avec succès!");
+          closeModal();
+        },
+        onError: function onError(error) {
+          editNiveauScolaire.nomError = error.nom;
+          (0,_Composables_alert__WEBPACK_IMPORTED_MODULE_2__.useSwalError)("Une erreur a été rencontrée");
+        }
+      });
+    };
+
     var openModal = function openModal() {
+      getNiveauScolaireById();
       $("#EditModal").modal("show");
     };
 
@@ -31866,7 +31888,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(route("niveauscolaire.edit", {
         niveauScolaire: props.niveauScolaireId
       })).then(function (response) {
-        console.log("reponse : ", response.data);
+        editNiveauScolaire.id = response.data.niveauScolaire.id;
+        editNiveauScolaire.nom = response.data.niveauScolaire.nom;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -31885,11 +31908,15 @@ __webpack_require__.r(__webpack_exports__);
       emit: emit,
       props: props,
       editNiveauScolaire: editNiveauScolaire,
+      soumettre: soumettre,
       openModal: openModal,
       closeModal: closeModal,
       getNiveauScolaireById: getNiveauScolaireById,
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
-      watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch
+      watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch,
+      Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__.Inertia,
+      useSwalSuccess: _Composables_alert__WEBPACK_IMPORTED_MODULE_2__.useSwalSuccess,
+      useSwalError: _Composables_alert__WEBPACK_IMPORTED_MODULE_2__.useSwalError
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -32547,9 +32574,7 @@ var _hoisted_7 = [_hoisted_6];
 var _hoisted_8 = {
   "class": "modal-body"
 };
-var _hoisted_9 = {
-  id: "editForm"
-};
+var _hoisted_9 = ["onSubmit"];
 var _hoisted_10 = {
   "class": "form-group"
 };
@@ -32581,7 +32606,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "close",
     onClick: $setup.closeModal,
     "aria-label": "Close"
-  }, _hoisted_7)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, _hoisted_7)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    id: "editForm",
+    onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.soumettre, ["prevent"])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     required: "",
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
@@ -32594,7 +32622,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* CLASS */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.editNiveauScolaire.nom]]), $setup.editNiveauScolaire.nomError != '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.editNiveauScolaire.nomError), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_9)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
