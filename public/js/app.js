@@ -31917,6 +31917,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Shared_Pagination_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Shared/Pagination.vue */ "./resources/js/Shared/Pagination.vue");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _Composables_alert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Composables/alert */ "./resources/js/Composables/alert.js");
+
 
 
 
@@ -31945,6 +31947,28 @@ __webpack_require__.r(__webpack_exports__);
       return etudiant.sexe == "M" ? "images/man.jpeg" : "images/woman.jpeg";
     };
 
+    var deleteEtudiant = function deleteEtudiant(id) {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia["delete"](route("etudiant.delete", {
+        etudiant: id
+      }), {
+        onSuccess: function onSuccess(response) {
+          (0,_Composables_alert__WEBPACK_IMPORTED_MODULE_3__.useSwalSuccess)("Etudiant supprimé avec succès!");
+        },
+        onError: function onError(error) {
+          var _error$message;
+
+          (0,_Composables_alert__WEBPACK_IMPORTED_MODULE_3__.useSwalError)((_error$message = error.message) !== null && _error$message !== void 0 ? _error$message : "Une erreur a été rencontrée");
+        }
+      });
+    };
+
+    var deleteConfirmation = function deleteConfirmation(etudiant) {
+      var message = "Vous \xEAtes sur le point de supprimer l'\xE9tudiant \"".concat(etudiant.nom, " ").concat(etudiant.prenom, "\", voulez-vous continuer?");
+      (0,_Composables_alert__WEBPACK_IMPORTED_MODULE_3__.useSwalConfirm)(message, function () {
+        deleteEtudiant(etudiant.id);
+      });
+    };
+
     var search = _.throttle(function () {
       console.log("searchEtudiant : ", searchEtudiant.value);
       console.log("filter : ", filtreNiveauScolaire.value);
@@ -31965,10 +31989,15 @@ __webpack_require__.r(__webpack_exports__);
       filtreNiveauScolaire: filtreNiveauScolaire,
       per_page: per_page,
       showPic: showPic,
+      deleteEtudiant: deleteEtudiant,
+      deleteConfirmation: deleteConfirmation,
       search: search,
       Pagination: _Shared_Pagination_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
       ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
-      Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia
+      Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia,
+      useSwalConfirm: _Composables_alert__WEBPACK_IMPORTED_MODULE_3__.useSwalConfirm,
+      useSwalSuccess: _Composables_alert__WEBPACK_IMPORTED_MODULE_3__.useSwalSuccess,
+      useSwalError: _Composables_alert__WEBPACK_IMPORTED_MODULE_3__.useSwalError
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -33250,14 +33279,15 @@ var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "btn btn-danger"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_30 = ["onClick"];
+
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "fas fa-trash"
-})], -1
+}, null, -1
 /* HOISTED */
 );
 
+var _hoisted_32 = [_hoisted_31];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Link");
 
@@ -33348,7 +33378,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
     }, 1032
     /* PROPS, DYNAMIC_SLOTS */
-    , ["href"]), _hoisted_30])])]);
+    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-danger",
+      onClick: function onClick($event) {
+        return $setup.deleteConfirmation(etudiant);
+      }
+    }, _hoisted_32, 8
+    /* PROPS */
+    , _hoisted_30)])])]);
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])])])])])])])])], 64

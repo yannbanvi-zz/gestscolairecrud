@@ -70,7 +70,7 @@
                         <Link :href="route('etudiant.edit', {etudiant: etudiant.id})" class="btn btn-info mr-2">
                           <i class="fas fa-pen"></i>
                         </Link>
-                        <button class="btn btn-danger">
+                        <button class="btn btn-danger" @click="deleteConfirmation(etudiant)">
                           <i class="fas fa-trash"></i>
                         </button>
                       </div>
@@ -90,6 +90,7 @@
 import Pagination from "../../Shared/Pagination.vue";
 import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
+import { useSwalConfirm, useSwalSuccess, useSwalError  } from "../../Composables/alert";
 
 const props = defineProps({
   etudiants: Object,
@@ -107,6 +108,25 @@ const showPic = (etudiant)=>{
   }
   return etudiant.sexe == "M" ? "images/man.jpeg" : "images/woman.jpeg"
 }
+
+const deleteEtudiant = (id) => {
+  Inertia.delete(route("etudiant.delete", { etudiant: id }), {
+    onSuccess: (response) => {
+      useSwalSuccess("Etudiant supprimé avec succès!");
+    },
+    onError: (error) => {
+      useSwalError(error.message ?? "Une erreur a été rencontrée");
+    },
+  });
+};
+
+const deleteConfirmation = (etudiant) => {
+  const message =
+    `Vous êtes sur le point de supprimer l'étudiant "${etudiant.nom} ${etudiant.prenom}", voulez-vous continuer?`;
+  useSwalConfirm(message, () => {
+    deleteEtudiant(etudiant.id);
+  });
+};
 
 const search = _.throttle(function(){
   console.log("searchEtudiant : ", searchEtudiant.value )
