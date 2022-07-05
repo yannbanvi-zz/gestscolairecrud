@@ -34,7 +34,11 @@ class EtudiantController extends Controller
     }
 
     public function create(){
-        return inertia("Etudiant/CreateEtudiant");
+        $niveauScolaires = NiveauScolaire::all();
+
+        return inertia("Etudiant/CreateEtudiant", [
+            "niveauScolaires" => $niveauScolaires,
+        ]);
     }
 
     public function edit($id){
