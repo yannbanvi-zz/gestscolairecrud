@@ -16,9 +16,9 @@
           <div class="card">
             <div class="card-header">
               <div class="card-title">
-                <button class="btn btn-primary mb-4">
+                <Link :href="route('etudiant.create')" class="btn btn-primary mb-4">
                   <i class="fa fa-plus"></i> Nouveau
-                </button>
+                </Link>
                 <select @change="search" v-model="per_page"  class="form-control">
                     <option  disabled selected>par page</option>
                     <option value="5">5</option>
@@ -42,6 +42,8 @@
               <table class="table">
                 <thead>
                   <tr>
+                  <th>
+                  </th>
                     <th>
                     <p>Etudiant</p>
                     <input @keyup="search" v-model="searchEtudiant" type="text" class="form-control">
@@ -58,6 +60,9 @@
                 </thead>
                 <tbody>
                   <tr v-for="etudiant in props.etudiants.data">
+                  <td>
+                    <img :src="showPic(etudiant)" alt="" style="width:45px; height:45px; border-radius: 25px;">
+                  </td>
                     <td>{{ etudiant.nom }} {{ etudiant.prenom }}</td>
                     <td>{{ etudiant.niveau_scolaire.nom }}</td>
                     <td>
@@ -95,6 +100,13 @@ const props = defineProps({
 const searchEtudiant = ref(props.filtres.search ?? "")
 const filtreNiveauScolaire = ref(props.filtres.filter ?? "")
 const per_page = ref(props.filtres.per_page ?? 5)
+
+const showPic = (etudiant)=>{
+  if(etudiant.photo){
+    return 'storage/'+etudiant.photo
+  }
+  return etudiant.sexe == "M" ? "images/man.jpeg" : "images/woman.jpeg"
+}
 
 const search = _.throttle(function(){
   console.log("searchEtudiant : ", searchEtudiant.value )

@@ -63,7 +63,8 @@ class EtudiantController extends Controller
 
             if ($request->hasFile("photo")) {
                 $photo = $request->photo;
-                $fileName = $photo->getClientOriginalName();
+                $name = $etudiant->nom ." ".$etudiant->prenom;
+                $fileName = str_replace(" ", "_", $name);
                 $filePath = $photo->storeAs("photos", $fileName, "public");
                 $etudiant->photo = $filePath;
                 $etudiant->save();
