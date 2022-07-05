@@ -58,7 +58,7 @@
                 <div class="d-flex justify-content-between">
                 <div class="form-group">
                   <label for="">Photo :</label>
-                  <input  type="file" accept="image/*" class="form-control" @input="previewImage($event)">
+                  <input :key="inputKey"  type="file" accept="image/*" class="form-control" @input="previewImage($event)">
                 </div>
                 <div>
                   <img src="" alt="" id="image-preview" style="width:75px;height:75px; border-radius:25px; display:none;">
@@ -78,10 +78,14 @@
 <script setup>
 
 import { useForm } from '@inertiajs/inertia-vue3';
+import { ref } from 'vue';
+import { useSwalSuccess, useSwalError } from '../../Composables/alert';
 
 const props = defineProps({
   niveauScolaires: Array
 })
+
+const inputKey = ref(0);
 
 const form = useForm({
   nom: "",
@@ -93,7 +97,17 @@ const form = useForm({
 })
 
 const soumettre = ()=>{
-  console.log(form)
+  form.post(route("etudiant.store"), {
+    onSuccess: (page)=>{
+      useSwalSuccess("Etudiant ajouté avec succès!")
+      form.reset()
+      inputKey.value += 1
+      document.getElementById("image-preview").style.display = "none";
+    },
+    onError: (errors)=>{
+      useSwalError("Une erreur s'est produite.")
+    }
+  })
 }
 
 const previewImage = (event)=>{
