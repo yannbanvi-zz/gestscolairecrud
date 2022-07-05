@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(NiveauScolaireSeeder::class);
         
          \App\Models\Etudiant::factory(10)->create();
+         \App\Models\User::factory(10)->create();
 
     }
 }

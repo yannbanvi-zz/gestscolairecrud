@@ -20,7 +20,7 @@
             />
           </div>
           <div class="info">
-            <a href="#" class="d-block">Alexander Pierce</a>
+            <a href="#" class="d-block">{{ user.name }}</a>
           </div>
         </div>
 
@@ -74,3 +74,12 @@
       </div>
     </aside>
 </template>
+<script setup>
+import { usePage } from '@inertiajs/inertia-vue3';
+import { computed } from 'vue';
+
+const user = computed(()=>{
+  return usePage().props.value.auth.user
+})
+
+</script>

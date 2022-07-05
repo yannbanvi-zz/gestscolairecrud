@@ -12,7 +12,7 @@
   <div class="content">
     <div class="container">
       <div class="jumbotron">
-        <h1 class="display-4">Hello, world!</h1>
+        <h1 class="display-4">Bonjour, {{ user.name }}</h1>
         <p class="lead">
           Bienvenu sur notre application de gestion scolaire
         </p>
@@ -27,3 +27,11 @@
     </div>
   </div>
 </template>
+<script setup>
+  import { usePage } from "@inertiajs/inertia-vue3";
+  import { computed } from "vue";
+
+  const user = computed(()=> { 
+    return usePage().props.value.auth.user 
+    })
+</script>
