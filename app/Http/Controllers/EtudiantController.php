@@ -7,6 +7,7 @@ use App\Models\NiveauScolaire;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class EtudiantController extends Controller
 {
@@ -78,8 +79,55 @@ class EtudiantController extends Controller
         return redirect()->back();
     }
 
-    public function edit($id)
+    public function edit(Etudiant $etudiant)
     {
-        return inertia("Etudiant/EditEtudiant");
+        $niveauScolaires = NiveauScolaire::all();
+        return inertia("Etudiant/EditEtudiant", [
+            "niveauScolaires" => $niveauScolaires,
+            "etudiant" => $etudiant
+        ]);
+    }
+
+    public function update(Request $request, Etudiant $etudiant)
+    {
+      
+        $validatedData = $request->validate([
+            "nom" => "required",
+            "prenom" => "required",
+            "sexe" => "required",
+            "age" => "required",
+            "niveauScolaire" => "required|exists:niveau_scolaires,id",
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $etudiant->update([...$validatedData, "niveau_scolaire_id" => $request->niveauScolaire]);
+
+            if ($request->hasFile("photo")) {
+
+                if(Storage::exists($etudiant->photo)){
+                    Storage::delete($etudiant->photo);
+                }
+
+                $photo = $request->photo;
+                $name = $etudiant->nom ." ".$etudiant->prenom;
+                $fileName = str_replace(" ", "_", $name);
+                $filePath = $photo->storeAs("photos", $fileName, "public");
+                $etudiant->photo = $filePath;
+                $etudiant->save();
+
+                
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+
+        return redirect()->back();
+
+        
+
     }
 }

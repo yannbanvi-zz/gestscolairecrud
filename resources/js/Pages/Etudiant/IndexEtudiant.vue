@@ -67,9 +67,9 @@
                     <td>{{ etudiant.niveau_scolaire.nom }}</td>
                     <td>
                       <div class="d-flex justify-items-center">
-                        <button class="btn btn-info mr-2">
+                        <Link :href="route('etudiant.edit', {etudiant: etudiant.id})" class="btn btn-info mr-2">
                           <i class="fas fa-pen"></i>
-                        </button>
+                        </Link>
                         <button class="btn btn-danger">
                           <i class="fas fa-trash"></i>
                         </button>
