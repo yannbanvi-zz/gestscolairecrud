@@ -105,9 +105,10 @@ class EtudiantController extends Controller
             $etudiant->update([...$validatedData, "niveau_scolaire_id" => $request->niveauScolaire]);
 
             if ($request->hasFile("photo")) {
-
-                if(Storage::exists($etudiant->photo)){
-                    Storage::delete($etudiant->photo);
+                if(isset($etudiant->photo)){
+                    if(Storage::exists($etudiant->photo)){
+                        Storage::delete($etudiant->photo);
+                    }
                 }
 
                 $photo = $request->photo;

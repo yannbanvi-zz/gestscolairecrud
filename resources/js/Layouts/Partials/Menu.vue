@@ -35,7 +35,7 @@
           >
 
           <li class="nav-item">
-              <Link :href="route('niveauscolaire.index')" class="nav-link" :class="{'active': $page.component == 'NiveauScolaire/Index'}">
+              <Link as="a" :href="route('niveauscolaire.index')" class="nav-link" :class="{'active': $page.component.startsWith('NiveauScolaire') }">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Niveau scolaire
